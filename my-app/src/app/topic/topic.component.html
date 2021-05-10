@@ -1,0 +1,112 @@
+<div style="margin-left: 50px; margin-top: 50px; display: flex; flex-direction: row; flex-wrap: nowrap">
+
+  <div class="question-column">
+
+    <div style="display: flex; flex: 1; flex-direction: column; margin-right: 10px">
+
+      <h3>Post</h3>
+
+      <form class="example-form">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Add tag</mat-label>
+          <input type="text"
+                 placeholder="Add tags"
+                 aria-label="Add tags"
+                 matInput
+                 [formControl]="tagsControl"
+                 [matAutocomplete]="auto"
+                 (keyup.enter)="addTag()">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+
+      <ng-container *ngIf="tagsAdded.length > 0">
+        <div style="margin-top: 20px; margin-bottom: 20px">
+          <mat-chip-list>
+            <mat-chip (removed)="onChipRemoved(tag)" removable style="background-color: white; border: 1px solid"
+                      *ngFor="let tag of tagsAdded">
+              {{tag}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </ng-container>
+
+
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Post</mat-label>
+        <textarea matInput [(ngModel)]="postText"
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="6"
+                  cdkAutosizeMaxRows="6">
+            </textarea>
+      </mat-form-field>
+
+      <div style="align-self: flex-end">
+        <button mat-stroked-button (click)="sendQuestion()" [disabled]="!postText">
+          <mat-icon>send</mat-icon>
+          Send
+        </button>
+      </div>
+
+      <mat-divider style="margin-top: 20px; margin-bottom: 20px"></mat-divider>
+
+      <div>
+        <mat-button-toggle-group (change)="onToggleQuestionChange($event.value)">
+          <mat-button-toggle value="date">Newest</mat-button-toggle>
+          <mat-button-toggle value="votes">Most voted</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+
+      <div style="margin-top: 20px; flex-wrap: wrap" *ngFor="let question of questionsRelated">
+        <mat-card [ngClass]="isQuestionSelected && question.id === questionSelected.id ? 'question-selected' : 'question-not-selected'">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-chip-list>
+                <mat-chip style="background-color: white; border: 1px solid"
+                          *ngFor="let tag of question.tags">{{tag.name}}</mat-chip>
+              </mat-chip-list>
+            </mat-card-title>
+            <mat-card-subtitle>{{getTimeDistance(question.questionDate)}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div>
+              {{question.text}}
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div style="display: flex; flex-direction: row">
+              <div>
+                <button mat-stroked-button style="border-radius: 20px"
+                        (click)="voteQuestion(question)">
+                  <mat-icon [ngClass]="question.voted ? 'voted' : 'not-voted'">thumb_up</mat-icon>
+                  {{question.votes}}
+                </button>
+              </div>
+              <div style="margin-left: 10px">
+                <button mat-stroked-button style="border-radius: 20px"
+                        (click)="getComments(question)">
+                  <mat-icon>comment</mat-icon>
+                  {{question.answers}}
+                </button>
+              </div>
+            </div>
+
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="answer-column" *ngIf="isQuestionSelected">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

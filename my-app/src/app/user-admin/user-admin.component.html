@@ -1,0 +1,99 @@
+<div style="display: flex; flex-direction: row; flex-wrap: nowrap">
+  <div style="display: flex; flex-direction: column; margin: 50px 50px">
+    <h3>Add support user</h3>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput [(ngModel)]="supportUsername" placeholder="Enter username" required>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="supportEmail" placeholder="Enter email" required>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput [(ngModel)]="supportPass" placeholder="Enter password" required>
+      </mat-form-field>
+    </div>
+
+    <div style="align-self: flex-end">
+      <button mat-stroked-button (click)="addSupportUser()">Add</button>
+    </div>
+
+  </div>
+
+  <div style="display: flex; flex-direction: column; flex: 1; margin-left: 50px; margin-top: 50px">
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="userSource" style="width: 100%">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>Id</th>
+          <td mat-cell *matCellDef="let element">{{element.id}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="username">
+          <th mat-header-cell *matHeaderCellDef>Username</th>
+          <td mat-cell *matCellDef="let element" style="cursor: pointer" (click)="showUserStats(element)">{{element.username}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="roleId">
+          <th mat-header-cell *matHeaderCellDef>Role id</th>
+          <td mat-cell *matCellDef="let element" style="cursor: pointer" (click)="changeUserRole(element)">{{element.roleId}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef>Delete</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-stroked-button (click)="deleteUser(element)">Delete</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+
+  <div class="graphics">
+    <div *ngIf="questionLikesReady">
+      <canvas baseChart
+              [datasets]="questionLikesData"
+              [labels]="questionLikesLabels"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+
+    <div *ngIf="answerLikesReady">
+      <canvas baseChart
+              [datasets]="answerLikesData"
+              [labels]="answerLikesLabels"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+
+    <div *ngIf="userLikesReady">
+      <canvas baseChart
+              [datasets]="userLikesData"
+              [labels]="userLikesLabels"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+
+  </div>
+
+</div>

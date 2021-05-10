@@ -1,0 +1,38 @@
+.topicsMenu {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.topicsMenu::-webkit-scrollbar {
+  display: none;
+}
+
+.topicsMenu div {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.topicsMenu div:hover {
+  background-color: #777;
+}
+
+.selected {
+  background-color: greenyellow;
+}
+
+.not-selected {
+  background-color: #333;
+}

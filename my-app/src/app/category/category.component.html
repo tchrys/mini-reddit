@@ -1,0 +1,12 @@
+<div class="topicsMenu">
+  <div *ngFor="let topic of topicsRelated"
+       [ngClass]="getClass(topic.name)"
+       (click)="menuOptionSelected(topic)">
+    {{topic.name}}
+  </div>
+</div>
+
+
+<div style="margin-left: 200px">
+  <router-outlet></router-outlet>
+</div>

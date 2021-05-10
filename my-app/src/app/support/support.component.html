@@ -1,0 +1,120 @@
+<div style="display: flex; flex-direction:row; flex-wrap: nowrap;">
+
+  <div class="first-column" style="margin-left: 50px; margin-top: 50px; display: flex; flex-direction: column">
+    <h2>Add a category</h2>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Category name</mat-label>
+        <input matInput [(ngModel)]="categoryName" placeholder="Enter category name" required>
+      </mat-form-field>
+    </div>
+    <div style="align-self: end">
+      <button mat-button mat-stroked-button color="primary" (click)="addCategory()">Add</button>
+    </div>
+
+    <mat-divider style="margin-top: 20px"></mat-divider>
+
+    <h2 style="margin-top: 20px">Add topic</h2>
+
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Topic name</mat-label>
+        <input matInput [(ngModel)]="topicName" placeholder="Enter topic name" required>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select (selectionChange)="categorySelectChange($event)">
+          <mat-option
+            *ngFor="let category of categories"
+            [value]="category.id">
+            {{category.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div style="align-self: end">
+      <button mat-button mat-stroked-button color="primary"
+              (click)="addTopic()">Add
+      </button>
+    </div>
+
+
+  </div>
+
+
+  <div style="margin-left: 50px; margin-top: 50px">
+    <h2>All categories</h2>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="catSource">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element" style="cursor: pointer"
+              (click)="categorySelected(element)">{{element.name}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <!--        <mat-paginator #categoryPaginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>-->
+
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-left: 50px; margin-top: 50px">
+    <h2>{{topicsInfo}}</h2>
+
+    <ng-container *ngIf="topics.length > 0">
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="topicSource">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <!--      <mat-paginator #topicPaginator [pageSizeOptions]="[2, 10, 20]" showFirstLastButtons></mat-paginator>-->
+
+        </table>
+      </div>
+    </ng-container>
+  </div>
+
+  <div style="margin: 50px 50px; display: flex; height: 100%; flex-direction: column; flex-grow: 1">
+    <div style="display: block">
+      <h2>Feedback from users</h2>
+    </div>
+    <div class="cardList" style="display: block; overflow: auto; height: 500px">
+      <div style="margin-top: 20px" *ngFor="let improvement of improvements">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{improvement.improvementType}}</mat-card-title>
+            <mat-card-subtitle>From {{improvement.username}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              {{improvement.request}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button (click)="deleteImprovement(improvement)">
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+          </mat-card-actions>
+        </mat-card>
+
+      </div>
+    </div>
+  </div>
+
+
+</div>
+

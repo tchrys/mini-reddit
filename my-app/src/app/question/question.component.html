@@ -1,0 +1,67 @@
+<div style="display: flex; flex: 1; flex-direction: column; margin-right: 10px">
+
+  <ng-container>
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Write your comment</mat-label>
+      <textarea matInput [(ngModel)]="comment"
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="6"
+                cdkAutosizeMaxRows="6">
+            </textarea>
+    </mat-form-field>
+
+    <div style="margin-left: auto">
+      <button mat-stroked-button (click)="sendAnswer()" [disabled]="!comment">
+        <mat-icon>send</mat-icon>
+        Send
+      </button>
+    </div>
+    <ng-container *ngTemplateOutlet="answersForQ.length === 0 ? noAnswers : answersTemplate">
+    </ng-container>
+  </ng-container>
+
+  <ng-template #noAnswers>
+    <h3>There are no comments for this post.</h3>
+  </ng-template>
+
+  <ng-template #answersTemplate>
+    <div style="display: flex; flex-direction: column; margin-top: 20px">
+      <mat-divider style="margin-top: 20px; margin-bottom: 20px"></mat-divider>
+
+      <div style="margin-bottom: 20px">
+        <mat-button-toggle-group (change)="onToggleAnswers($event.value)">
+          <mat-button-toggle value="date">Newest</mat-button-toggle>
+          <mat-button-toggle value="votes">Most voted</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <div *ngFor="let answer of answersForQ" style="margin-bottom: 20px">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-subtitle>{{getTimeDistance(answer.answerDate)}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              {{answer.text}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <div style="display: flex; flex-direction: row">
+              <div>
+                <button mat-stroked-button style="border-radius: 20px"
+                        (click)="voteAnswer(answer)">
+                  <mat-icon [ngClass]="answer.voted ? 'voted' : 'not-voted'">thumb_up</mat-icon>
+                  {{answer.votes}}
+                </button>
+              </div>
+            </div>
+
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+    </div>
+  </ng-template>
+
+</div>

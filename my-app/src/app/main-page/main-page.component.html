@@ -1,0 +1,18 @@
+<div style="display: flex; flex-direction: column; overflow: hidden">
+
+  <div class="topMenu">
+    <div [ngClass]="getClass('home')" (click)="homeSelected()">Home</div>
+    <div [ngClass]="getClass('search')" (click)="searchSelected()">Search</div>
+    <div *ngIf="myRole === 'ADMIN'" [ngClass]="getClass('users')" (click)="usersSelected()">Users</div>
+    <div *ngFor="let category of categories"
+         [ngClass]="getClass(category.name)"
+         (click)="menuOptionSelected(category)">{{category.name}}</div>
+    <div *ngIf="myRole != 'USER'" [ngClass]="getClass('support')" (click)="supportSelected()">Support</div>
+    <div style="margin-left: auto" (click)="signout()">Sign out</div>
+  </div>
+
+  <div style="margin-top: 50px">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

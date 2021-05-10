@@ -1,0 +1,48 @@
+.voted {
+  color: blue;
+}
+
+.not-voted {
+  color: black;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.question-column {
+  display: flex;
+  overflow:auto;
+  height: 80vh;
+  flex-direction: column;
+  z-index: 1;
+  flex: 1;
+  scrollbar-color: dark;
+  scrollbar-width: thin;
+}
+
+.answer-column {
+  display: flex;
+  overflow: auto;
+  height: 80vh;
+  flex-direction: column;
+  margin: 20px 50px;
+  flex: 1;
+  scrollbar-color: dark;
+  scrollbar-width: thin;
+}
+
+.question-selected {
+  border: 2px solid blue;
+}
+
+.question-not-selected {
+
+}
+

@@ -1,0 +1,143 @@
+<div style="display: flex; margin-left: 50px; flex-direction: row; flex-wrap: nowrap">
+
+  <div class="first-column">
+
+    <div style="display: flex; flex-direction: column; margin-right: 10px">
+
+      <div style="margin-top: 20px; margin-bottom: 20px">
+        <h1>News by category</h1>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <mat-select (selectionChange)="categorySelectChange($event)">
+            <mat-option
+              *ngFor="let category of categoryKeys"
+              [value]="categories.get(category)">
+              {{category}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngFor="let article of hotArticles" style="margin-bottom: 20px">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title>{{formatArticleText(article.article.articleTitle)}}</mat-card-title>
+            <mat-card-subtitle>{{formatArticleText(article.article.time)}}</mat-card-subtitle>
+          </mat-card-header>
+          <img style="max-height: 300px" mat-card-image src="{{article.article.source}}">
+          <mat-card-content>
+            <p>
+              {{formatArticleText(article.article.snippet)}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <div>
+              <a href="{{formatArticleText(article.article.url)}}">{{formatArticleText(article.article.url)}}</a>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="second-column">
+
+    <div style="display: flex; flex: 1; flex-direction: column; margin-right: 10px">
+
+      <div style="margin-top: 20px; margin-bottom: 20px">
+        <h1>Daily news</h1>
+      </div>
+
+      <div *ngFor="let article of dailyArticles" style="margin-bottom: 20px">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title>{{formatArticleText(article.article.articleTitle)}}</mat-card-title>
+            <mat-card-subtitle>{{formatArticleText(article.article.time)}}</mat-card-subtitle>
+          </mat-card-header>
+          <img style="max-height: 300px" mat-card-image src="{{article.article.source}}">
+          <mat-card-content>
+            <p>
+              {{formatArticleText(article.article.snippet)}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <div>
+              <a href="{{formatArticleText(article.article.url)}}">{{formatArticleText(article.article.url)}}</a>
+            </div>
+          </mat-card-actions>
+        </mat-card>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="third-column">
+
+    <div style="display: flex; flex-direction: column; margin-top: 50px">
+      <h2>Feedback</h2>
+
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Improvement type</mat-label>
+          <input matInput [(ngModel)]="improvementType" placeholder="Enter improvement type">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline" style="width: 100%">
+          <mat-label>Write your comment</mat-label>
+          <textarea matInput [(ngModel)]="comment"
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="6"
+                    cdkAutosizeMaxRows="6">
+            </textarea>
+        </mat-form-field>
+      </div>
+
+      <div style="align-self: flex-end">
+        <button mat-stroked-button (click)="addFeedback()">Submit</button>
+      </div>
+
+    </div>
+
+    <div *ngIf="tagsAppReady">
+      <canvas baseChart height="400px" width="500px"
+              [datasets]="tagsAppData"
+              [labels]="tagsAppLabels"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+
+    <div *ngIf="tagsInterestReady">
+      <canvas baseChart height="400px" width="500px"
+              [datasets]="tagsInterestData"
+              [labels]="tagsInterestLabels"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+
+    <div *ngIf="topicsReady">
+      <canvas baseChart height="400px" width="500px"
+              [datasets]="topicsPopData"
+              [labels]="topicsPopLabels"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+
+  </div>
+
+</div>

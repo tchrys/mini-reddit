@@ -1,0 +1,10 @@
+.graphics {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  overflow-y: auto;
+  flex: 1; scrollbar-width: none;
+  -ms-overflow-style: none;
+  margin-left: 50px;
+  margin-right: 50px
+}
